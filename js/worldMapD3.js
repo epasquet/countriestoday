@@ -1,33 +1,48 @@
+var country_zone = {};
+
+var zone_color = {"alena": "#800000",
+                  "ue": "#000066",
+                  "mercosur": "#333300",
+                  "asean": "#cc9900",
+                  "zlec" : "#6d5a07",
+                  "mcca" : "#820d5e",
+                  "ueea" : "#076050",
+                  "ccg" : "#1c1b19",
+                  "": "#AAAAAA" }
+
+function isInArray(li, el) {
+    return li.indexOf(el.toLowerCase()) > -1;
+}
+
+var country_score = {};
+
+var score_color_scale = d3.scale.linear()
+                            .domain([0, 1])
+                            .range(["#589961", "#00f923"]);
+
+function color_countries(d){
+    if (showCommercialZone === true){
+         if (typeof(country_zone[d.properties.name.toLowerCase()]) !== 'undefined'){
+            cz = country_zone[d.properties.name.toLowerCase()]
+            return zone_color[cz];
+         } else {
+         return zone_color[""];
+         }
+     } else {
+         if (typeof(country_score[d.properties.name.toLowerCase()]) !== 'undefined'){
+            cs = country_score[d.properties.name.toLowerCase()]
+            //console.log(d.properties.name, cs, score_color_scale(cs))
+            return score_color_scale(cs);
+         } else {
+         return score_color_scale(0);
+         console.log("nope")
+         }
+     }
+}
+
 draw_world(showCommercialZone);
 
 function draw_world(showCommercialZone){
-    // MODIF 06_16
-    var country_zone = {};
-
-    // MODIF 06_16
-    var zone_color = {"alena": "#800000",
-                      "ue": "#000066",
-                      "mercosur": "#333300",
-                      "asean": "#cc9900",
-                      "zlec" : "#6d5a07",
-                      "mcca" : "#820d5e",
-                      "ueea" : "#076050",
-                      "ccg" : "#1c1b19",
-                      "": "#AAAAAA" }
-
-    // MODIF 06_16
-    function isInArray(li, el) {
-        return li.indexOf(el.toLowerCase()) > -1;
-    }
-
-    // MODIF 06_20
-    var country_score = {};
-
-    // MODIF 06_20
-    var score_color_scale = d3.scale.linear()
-                                .domain([0, 1])
-                                .range(["#589961", "#00f923"]);
-
     var width = 1450,
         height = 600;
 
@@ -41,10 +56,10 @@ function draw_world(showCommercialZone){
         .attr("width", width)
         .attr("height", height);
 
+    var g = svg.append("g");
+
     var country_path = d3.geo.path()
         .projection(projection);
-
-    var g = svg.append("g");
 
     // definition du tooltip
     var tooltip = d3.select("body")
@@ -76,6 +91,7 @@ function draw_world(showCommercialZone){
                     //console.log("Last  row: ", rows[rows.length-1]);
                 }
                 for(var i = 0; i < rows.length; i++) {
+                    countryList.push(rows[i].country.toLowerCase().replace(/[^a-zA-Z]/g, "_"));
                     country_zone[rows[i].country.toLowerCase()] = rows[i].comZone.toLowerCase();
                     country_score[rows[i].country.toLowerCase()] = rows[i].binScore.toLowerCase();
                 }
@@ -89,22 +105,11 @@ function draw_world(showCommercialZone){
         .enter()
           .append("path")
           .attr("d", country_path)
-          .style("fill", function(d){if (showCommercialZone === true){
-                                         if (typeof(country_zone[d.properties.name.toLowerCase()]) !== 'undefined'){
-                                            cz = country_zone[d.properties.name.toLowerCase()]
-                                            return zone_color[cz];
-                                         } else {
-                                         return zone_color[""];
-                                         }
-                                     } else {
-                                         if (typeof(country_score[d.properties.name.toLowerCase()]) !== 'undefined'){
-                                            cs = country_score[d.properties.name.toLowerCase()]
-                                            //console.log(d.properties.name, cs, score_color_scale(cs))
-                                            return score_color_scale(cs);
-                                         } else {
-                                         return score_color_scale(0);
-                                         }
-                                     }
+          .attr("class", function(d){
+          console.log(d.properties.name.toLowerCase().replace(/[^a-zA-Z]/g, "_"))
+          return d.properties.name.toLowerCase().replace(/[^a-zA-Z]/g, "_")})
+          .style("fill", function(d){
+                                     return color_countries(d);
                                     })
           .on("mouseover", function(d){return tooltip.style("visibility", "visible")
                                                      .text(d.properties.name);})
