@@ -1,0 +1,77 @@
+.index-header {
+    color: #204060;
+    /* text-align : center; */
+    margin-left: 50px;
+    font-family: arial, verdana, sans-serif;
+    font-size: 20px;
+}
+
+path {
+  stroke: white;
+  stroke-width: 0.25px;
+  fill: #0055FF;
+}
+
+svg {
+  font: 14px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+  stroke-width: 1.5px;
+  stroke: steelblue;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+#parcoords{
+    margin-top: 200px;
+    height: 350px;
+    clear: both;
+}
+
+/* Slick Grid */
+.slick-row:hover {
+  font-weight: bold;
+}
+.ui-widget {
+  font-size: 1em;
+}
+
+/* Page itself */
+.clear {
+  clear: both;
+}
+
+#grid{
+    margin-top: 40px;
+    height: 320px;
+    clear: both;
+}
+
+#explanation {
+  width: 500px;
+  float: left;
+}
+
+#smoothnes {
+margin-top: 0px;
+  width: 500px;
+  float: left;
+}
+
+#slider3 {
+margin-top: 0px;
+  width: 400px;
+  float: left;
+}

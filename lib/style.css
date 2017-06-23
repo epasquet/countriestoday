@@ -1,0 +1,92 @@
+body {
+  font-size: 14px;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  margin: 24px;
+  background: #fcfcfc;
+  line-height: 1.45em;
+}
+
+/* Slick Grid */
+.slick-row:hover {
+  font-weight: bold;
+}
+.ui-widget {
+  font-size: 1em;
+}
+
+/* Page itself */
+.clear {
+  clear: both;
+}
+
+#header h2 {
+  margin-top: 0;
+  color:darkblue;
+}
+
+h3 {
+  margin-top: 0px;
+  color:darkorange;
+}
+.float {
+  float: left;
+}
+.centered {
+  text-align: left;
+}
+.hide {
+  display: none;
+}
+
+a {
+  color: #555;
+}
+a:hover {
+  color: #000;
+}
+/*
+ul li { list-style:none; }
+ul li:before {
+  content:"\2022";
+  color: darkorange;
+  font-size:1.5em;
+  padding-right:.5em;
+  position:relative;
+  top:.15em;
+}
+*/
+
+#explanation {
+  width: 500px;
+  float: left;
+}
+
+#smoothnes {
+margin-top: 0px;
+  width: 500px;
+  float: left;
+}
+
+#slider3 {
+margin-top: 0px;
+  width: 500px;
+  float: left;
+}
+
+#parcoords {
+  margin-top: 200px;
+  height:700px;
+  clear: both;
+}
+
+#map {
+  width:450px;
+  float: left;
+}
+
+#grid {
+  height: 320px;
+  margin-top: 40px;
+  //margin-left: 450px;
+  clear: both;
+}

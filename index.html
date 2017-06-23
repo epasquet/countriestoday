@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<title>Choropleth map</title>
+<script type="text/javascript" src="js/d3/d3.min.js"></script>
+<script type="text/javascript" src="js/textWrapper.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<!--Slider-->
+<link rel="stylesheet" type="text/css" href="css/d3.slider.css">
+
+
+<body>
+    <!-- SlickGrid -->
+    <link rel="stylesheet" href="lib/slickgrid/slick.grid.css" type="text/css"/>
+    <link rel="stylesheet" href="lib/slickgrid/jquery-ui-1.8.16.custom.css" type="text/css"/>
+    <link rel="stylesheet" href="lib/slickgrid/slick.pager.css" type="text/css"/>
+    <script src="lib/slickgrid/jquery-1.7.min.js"></script>
+    <script src="lib/slickgrid/jquery.event.drag-2.0.min.js"></script>
+    <script src="lib/slickgrid/slick.core.js"></script>
+    <script src="lib/slickgrid/slick.grid.js"></script>
+    <script src="lib/slickgrid/slick.pager.js"></script>
+    <script src="lib/slickgrid/slick.dataview.js"></script>
+    <!-- End SlickGrid -->
+
+    <!-- ParCoords -->
+    <script src="lib/d3.parcoords.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/d3.parcoords.css">
+    <!-- End ParCoords -->
+
+    <script src="lib/d3-legend.js"></script>
+    <script src="lib/divgrid.js"></script>
+    <script src="lib/sylvester.js"></script>
+
+    <script src="js/topojson/topojson.v1.min.js"></script>
+    <script src="js/radarChart.js"></script>
+    <script src="js/d3CheckBox.js"></script>
+    <script>
+        var selectedCountries = [];
+        var showCommercialZone = false;
+    </script>
+    <div id="map_div" class = "world_map" style="width: 65%; background-color:#ccccff; height: 600px; float: left;"></div>
+    <script type="text/javascript" src="js/worldMapD3.js"></script>
+
+    <div id="chart" class = "radar" style="width: 35%; background-color:#EEEEEE; height: 600px; float: right;"></div>
+    <script type="text/javascript" src="js/script.js"></script>
+
+    <!-- DIV FILTERS -->
+    <div id="filters" class ="filters" style="width: 65%; background-color:#DDDDDD; height: 100px; float: left;">
+        <div id="ShowComZone_CheckBox" class ="ShowComZone_CheckBox" style="width: 40%; height: 100px; float: left;">
+            <label style="float: centered;">
+                <span>Show Commercial Alliances</span>
+            <input type="checkbox" id="myCheckbox" style="width: 30px; height: 30px;">
+            </label>
+            <script>
+                d3.select("#myCheckbox").on("change",update);
+                function update(){
+                    showCommercialZone = !showCommercialZone
+                    d3.select("#map_div").select("svg").remove()
+                        .call(draw_world(showCommercialZone));
+                }
+            </script>
+        </div>
+    </div>
+    <div id="radarLegends" class ="radarLegends" style="width: 35%; background-color:#CCCCCC; height: 100px; float: right;"></div>
+
+    <!-- DIV PARALLEL COORDINATES -->
+    <div id="explanation" class ="explanation" style="width: 60%; height: 100px; float: left;">
+        <div id="smoothnes" >
+            <h3>Use this slider to change the curve smoothness. <br/>The current value is <strong id="smooth">0.0</strong><br/></h3>
+                <input type="range" min="0" max="0.25" value="0.0" step="0.01" id="smoothness"/>
+        </div>
+        <script src="js/d3.slider.js"></script>
+        <h3>Range Slider with event, values: [<span id="slider3textmin">0</span>, <span id="slider3textmax">25</span>]</h3>
+        <div id="slider3" ></div>
+    </div>
+    <div id="parcoords" class="parcoords"></div>
+    <!--<div id="map"></div>-->
+    <div id="grid"></div>
+    <script type="text/javascript" src="lib/parcoords.js"></script>
+    <!--<div class="clear"></div>-->
+</body>
+</html>
