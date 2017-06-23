@@ -19,8 +19,8 @@ var RadarChart = {
 	 factor: 1,
 	 factorLegend: .85,
 	 legendMaxWidth: 100,
-	 levels: 3,
-	 maxValue: 0,
+	 levels: 5,
+	 maxValue: 5,
 	 radians: 2 * Math.PI,
 	 opacityArea: 0.5,
 	 ToRight: 5,
@@ -88,7 +88,7 @@ var RadarChart = {
 	   .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor) + ")")
 	   .attr("fill", "#333333")
 	   //.text(Format((j+1)*cfg.maxValue/cfg.levels));
-	   .text((j+1)*cfg.maxValue);
+	   .text((j+1)*cfg.maxValue/cfg.levels);
 	}
 	
 	series = 0;
