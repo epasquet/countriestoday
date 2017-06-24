@@ -28,9 +28,21 @@ var RadarChart = {
 	 TranslateY: 70,
 	 ExtraWidthX: 100,
 	 ExtraWidthY: 400,
-	 color: d3.scale.category10()
+	 //color: d3.scale.category10()
+	 // EDIT 06_24 MANU
+	 color: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
+	         "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]
 	};
-	
+
+	 // EDIT 06_24 MANU
+	function increment_series(series){
+        return (series + 1) % cfg.color.length;
+    }
+	 // EDIT 06_24 MANU
+    function mod(n, m) {
+        return ((n % m) + m) % m;
+    }
+
 	if('undefined' !== typeof options){
 	  for(var i in options){
 		if('undefined' !== typeof options[i]){
@@ -51,6 +63,15 @@ var RadarChart = {
 			.attr("height", cfg.h+cfg.ExtraWidthY)
 			.append("g")
 			.attr("transform", "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")");
+			;
+
+	d3.select("#radarLegends").select("svg").remove();
+    var l = d3.select("#radarLegends")
+			.append("svg")
+			.attr("width", 700)
+			.attr("height", 200)
+			.append("g")
+			.attr("transform", "translate(0, 20)");
 			;
 
 	var tooltip;
@@ -91,7 +112,7 @@ var RadarChart = {
 	   .text((j+1)*cfg.maxValue/cfg.levels);
 	}
 	
-	series = 0;
+	series = indexColor;
 
 	var axis = g.selectAll(".axis")
 			.data(allAxis)
@@ -131,13 +152,15 @@ var RadarChart = {
 		  ]);
 		});
 	  dataValues.push(dataValues[0]);
+
 	  g.selectAll(".area")
 					 .data([dataValues])
 					 .enter()
 					 .append("polygon")
 					 .attr("class", "radar-chart-serie"+series)
 					 .style("stroke-width", "2px")
-					 .style("stroke", cfg.color(series))
+					 // EDIT 06_24 MANU
+					 .style("stroke", cfg.color[series])
 					 .attr("points",function(d) {
 						 var str="";
 						 for(var pti=0;pti<d.length;pti++){
@@ -145,11 +168,12 @@ var RadarChart = {
 						 }
 						 return str;
 					  })
-					 .style("fill", function(j, i){return cfg.color(series)})
+			         // EDIT 06_24 MANU
+					 .style("fill", function(j, i){return cfg.color[series]})
 					 .style("fill-opacity", cfg.opacityArea)
 					 .on('mouseover', function (d){
-                                        //newX =  parseFloat(d3.select(this).attr('cx')) - 10;
-                                        //newY =  parseFloat(d3.select(this).attr('cy')) - 5;
+                                        newX =  parseFloat(d3.select(this).attr('cx')) - 10;
+                                        newY =  parseFloat(d3.select(this).attr('cy')) - 5;
                                         tooltip
                                             .attr('x', newX)
                                             .attr('y', newY)
@@ -164,14 +188,43 @@ var RadarChart = {
 										 .transition(200)
 										 .style("fill-opacity", .7);
 									  })
+					 // added by sidoine
+					 .on('click', function (d){
+                                    newX =  parseFloat(d3.select(this).attr('cx')) - 10;
+                                    newY =  parseFloat(d3.select(this).attr('cy')) - 5;
+
+                                    tooltip
+                                        .attr('x', newX)
+                                        .attr('y', newY)
+                                        .html("Score Value " + d.value)
+                                        .style("font-size","10px")
+                                       .style("font-weight", "bold")
+                                       .style("top", h) //Y-axis coordinate for tooltip position on mouseover event
+                                       .style("left",0) //X-axis coordinate for tooltip position on mouseover event
+                                       .style("color", "blue")
+                                        .transition(500)
+                                        .style('opacity', 1)
+                                        .style("visibility", "visible");
+
+                                    z = "polygon."+d3.select(this).attr("class");
+                                    g.selectAll("polygon")
+                                        .transition(200)
+                                        .style("fill-opacity", 0.1);
+                                    g.selectAll(z)
+                                        .transition(200)
+                                        .style("fill-opacity", .7);
+				     })
 					 .on('mouseout', function(){
+					                    tooltip.style("visibility", "hidden") // added by sidoine
 										g.selectAll("polygon")
 										 .transition(200)
 										 .style("fill-opacity", cfg.opacityArea);
 					 });
-	  series++;
+	  // EDIT 06_24 MANU
+	  series = increment_series(series);
 	});
-	series=0;
+	// EDIT 06_24 MANU
+	series = indexColor;
 
 
 	d.forEach(function(y, x){
@@ -192,7 +245,8 @@ var RadarChart = {
 		  return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
 		})
 		.attr("data-id", function(j){return j.axis})
-		.style("fill", cfg.color(series)).style("fill-opacity", .9)
+		// EDIT 06_24 MANU
+		.style("fill", cfg.color[series]).style("fill-opacity", .9)
 		.on('mouseover', function (d){
 					newX =  parseFloat(d3.select(this).attr('cx')) - 10;
 					newY =  parseFloat(d3.select(this).attr('cy')) - 5;
@@ -216,20 +270,78 @@ var RadarChart = {
 					tooltip
 						.transition(200)
 						.style('opacity', 0);
+				    tooltip.style("visibility", "hidden");// added by sidoine
 					g.selectAll("polygon")
 						.transition(200)
 						.style("fill-opacity", cfg.opacityArea);
 				  })
+	    // added by sidoine
+	    .on('click', function (d){
+					newX =  parseFloat(d3.select(this).attr('cx')) - 10;
+					newY =  parseFloat(d3.select(this).attr('cy')) - 5;
+
+					tooltip
+						.attr('x', newX)
+						.attr('y', newY)
+						.html("Value : " + d.origV + " " + d.unit)
+						.style("font-size","10px")
+                        .style("font-weight", "bold")
+                       //.style("top", h) //Y-axis coordinate for tooltip position on mouseover event
+                       //.style("left",0) //X-axis coordinate for tooltip position on mouseover event
+                       //.style("color", "blue")
+						.transition(500)
+						.style('opacity', 1)
+						.style("visibility", "visible");
+
+					z = "polygon."+d3.select(this).attr("class");
+					g.selectAll("polygon")
+						.transition(200)
+						.style("fill-opacity", 0.1);
+					g.selectAll(z)
+						.transition(200)
+						.style("fill-opacity", .7);
+				  })
 		.append("svg:title")
 		.text(function(j){return Math.max(j.value, 0)});
 
-	  series++;
+	    // EDIT 06_24 MANU
+	    // Legend
+        // Create colour squares
+        l.append("rect")
+            .attr('transform', "translate("+ mod(series - indexColor, 10) * 160 +",0)")
+            .attr("x", 20)
+            .attr("y", 0)
+            .attr("width", 150)
+            .attr("height", 70)
+            .style("fill", cfg.color[series])
+            .style("fill-opacity", cfg.opacityArea)
+            .style("stroke", cfg.color[series])
+            .style("stroke-width", "2px")
+            .style("stroke-opacity", 1.);
+
+        // Write country names
+        l.append("text")
+            .attr("class", "title")
+            .attr('transform', "translate("+ mod(series - indexColor, 10) * 160 +",0)")
+            .attr("x", 25)
+            .attr("y", 5)
+            .attr("dy", "1.0em")
+            .attr("font-size", "14px")
+            .attr("font-size", "14px")
+            .style("font-weight", "bold")
+            .attr("fill", cfg.color[series])
+            .text(selectedCountries[mod(series - indexColor, 10)].toUpperCase())
+            .call(wrap, 130)
+            ;
+
+      // EDIT 06_24 MANU
+	  series = increment_series(series);
 	});
+
 	//Tooltip
-	/*
 	tooltip = g.append('text')
 			   .style('opacity', 0)
 			   .style('font-family', 'sans-serif')
-			   .style('font-size', '13px');*/
+			   .style('font-size', '13px');
   }
 };
