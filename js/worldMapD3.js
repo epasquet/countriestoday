@@ -106,8 +106,8 @@ function draw_world(showCommercialZone){
           .append("path")
           .attr("d", country_path)
           .attr("class", function(d){
-          console.log(d.properties.name.toLowerCase().replace(/[^a-zA-Z]/g, "_"))
-          return d.properties.name.toLowerCase().replace(/[^a-zA-Z]/g, "_")})
+                                    return d.properties.name.toLowerCase().replace(/[^a-zA-Z]/g, "_");
+                                    })
           .style("fill", function(d){
                                      return color_countries(d);
                                     })
@@ -122,14 +122,40 @@ function draw_world(showCommercialZone){
                 c = d.properties.name.toLowerCase()
                 console.log(c);
                 load_and_draw_radar()
-                // MODIF 06_16
                 d3.select(this).style("stroke-width", "2px").style("fill", "#DDDDDD");
-                // MODIF 06_16
+                // EDIT 06_24 MANU
+                // Remplissage de la liste de selected countries
+                // Limite du nombre de pays de la liste a 3
+                // Si pays existe deja, on le retire et on le repasse en fin de liste
                 if (!isInArray(selectedCountries, c)){
-                    selectedCountries.push(c);
+                    console.log("longueur liste", selectedCountries.length)
+                    if(!(selectedCountries.length > 3)){
+                        console.log("liste de moins de 3 elements")
+                        selectedCountries.push(c);
+                    } else {
+                        console.log("liste de 3 elements")
+                        // On recolore le premier pays comme il était avant
+                        console.log(selectedCountries[0])
+                        d3.selectAll("."+selectedCountries[0])
+                            .style("fill", function(d){
+                                         console.log(color_countries(d))
+                                         return color_countries(d);
+                                        })
+                            .style("stroke-width", "0.25px");
+                        // On retire le premier pays de la liste pour faire de la place
+                        selectedCountries.shift();
+                        indexColor ++;
+                        selectedCountries.push(c);
                     }
+                } else {
+                    var index = selectedCountries.indexOf(c);
+                    if (index > -1) {
+                        selectedCountries.splice(index, 1);
+                        selectedCountries.push(c);
+                    }
+                }
                 console.log(selectedCountries)
-                });
+          });
     });
 
     var zoom = d3.behavior.zoom()
