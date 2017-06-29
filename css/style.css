@@ -4,6 +4,7 @@
     margin-left: 50px;
     font-family: arial, verdana, sans-serif;
     font-size: 20px;
+    line-height: 1.45em;
 }
 
 path {
@@ -34,8 +35,45 @@ svg {
   shape-rendering: crispEdges;
 }
 
+ul li { list-style:none; }
+ul li:before {
+  content:"\2022";
+  color: darkorange;
+  font-size:1.5em;
+  padding-right:.5em;
+  position:relative;
+  top:.15em;
+}
+
+#header h2 {
+  text-align : center;
+  margin-top: 0;
+  color:darkblue;
+}
+
+h2 {
+  margin-top: 20px;
+  color:darkblue;
+}
+.float {
+  float: left;
+}
+.centered {
+  text-align: left;
+}
+.hide {
+  display: none;
+}
+
+a {
+  color: #555;
+}
+a:hover {
+  color: #000;
+}
+
 #parcoords{
-    margin-top: 200px;
+    margin-top: 250px;
     height: 350px;
     clear: both;
 }
@@ -59,19 +97,17 @@ svg {
     clear: both;
 }
 
-#explanation {
-  width: 500px;
-  float: left;
-}
-
-#smoothnes {
-margin-top: 0px;
-  width: 500px;
-  float: left;
-}
-
-#slider3 {
-margin-top: 0px;
+#data_sources {
+  #background-color: grey;
   width: 400px;
   float: left;
+}
+#links {
+  /*background-color: red;*/
+  width: 800px;
+  margin-left: 500px;
+}
+#footer {
+  clear: both;
+  height: 30px;
 }
