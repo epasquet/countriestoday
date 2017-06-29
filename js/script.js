@@ -1,6 +1,7 @@
 // http://bl.ocks.org/nbremer/6506614
 
 // key = nom de pays, value = donnees du pays
+/*
 var dataset = {};
 
 var w = 400,
@@ -82,22 +83,23 @@ function load_and_draw_radar(){
             }
 
             var countries = selectedCountries;
-
-            var variables = [
-                // EDIT 06_24 MANU
-                {variable:"bin_gdpCapita", name:"GDP (per capita)", origValue:"gdpCapita", /*min: 400, max: 58900, "scaler":gdpCapitaScaler, */"unity":"$"},
-                {variable:"bin_investPercGdp", name:"Investment (% of GDP)", origValue:"investPercGdp", /*min: 8, max: 65.10, /*"scaler":investPercGdpScaler,*/ "unity":"%"},
-                {variable:"bin_inflation", name:"Inflation quality", origValue:"inflation", /*min: -3.7, max: 133, "scaler":inflationScaler,*/ "unity":"$"},
-                {variable:"bin_metropolitan", name:"Population living in 5M+ metropolitan areas", origValue:"metropolitan", /*min: 0, max: 310000000, "scaler":metropolitanScaler,*/ "unity":""},
-                {variable:"bin_oilDeficit", name:"Oil deficit (per capita)", origValue:"oilDeficit", /*min: -0.9, max: 1.51, "scaler":oilDeficitScaler,*/ "unity":"$"},
-                {variable:"bin_elecSurplus", name:"Electricity surplus (per capita)", origValue:"elecSurplus", /*min: -6880, max: 7230, "scaler":elecSurplusScaler,*/ "unity":"$"},
-                {variable:"bin_highways", name:"Highways(km) (per km2.capita)", origValue:"highways", /*min: 0, max: 0.0000005, "scaler":highwaysScaler,*/ "unity":"km"},
-                {variable:"bin_householdExp", name:"Household expenditure(M$)", origValue:"householdExp", /*min: 0, max: 11550000, "scaler":householdExpScaler,*/ "unity":"$"}
-            ];
-
+*/
+            //EDIT 06_24 MANU
+  //          var variables = [
+    //
+     //           {variable:"bin_gdpCapita", name:"GDP (per capita)", origValue:"gdpCapita", /*min: 400, max: 58900, "scaler":gdpCapitaScaler, */"unity":"$"},
+     //           {variable:"bin_investPercGdp", name:"Investment (% of GDP)", origValue:"investPercGdp", /*min: 8, max: 65.10, /*"scaler":investPercGdpScaler,*/ "unity":"%"},
+     //           {variable:"bin_inflation", name:"Inflation quality", origValue:"inflation", /*min: -3.7, max: 133, "scaler":inflationScaler,*/ "unity":"$"},
+     //           {variable:"bin_metropolitan", name:"Population living in 5M+ metropolitan areas", origValue:"metropolitan", /*min: 0, max: 310000000, "scaler":metropolitanScaler,*/ "unity":""},
+     //           {variable:"bin_oilDeficit", name:"Oil deficit (per capita)", origValue:"oilDeficit", /*min: -0.9, max: 1.51, "scaler":oilDeficitScaler,*/ "unity":"$"},
+     //           {variable:"bin_elecSurplus", name:"Electricity surplus (per capita)", origValue:"elecSurplus", /*min: -6880, max: 7230, "scaler":elecSurplusScaler,*/ "unity":"$"},
+     //           {variable:"bin_highways", name:"Highways(km) (per km2.capita)", origValue:"highways", /*min: 0, max: 0.0000005, "scaler":highwaysScaler,*/ "unity":"km"},
+     //           {variable:"bin_householdExp", name:"Household expenditure(M$)", origValue:"householdExp", /*min: 0, max: 11550000, "scaler":householdExpScaler,*/ "unity":"$"}
+     //       ];
+/*
             d = build_radar_data(dataset, countries, variables);
             // d = build_radar_data_test();
-            //console.log("radarChart datas d : ", d);
+            console.log(countries);
 
 
             //Call function to draw the Radar chart
@@ -106,3 +108,9 @@ function load_and_draw_radar(){
 
         });
     }
+*/
+// ############################### Start EDIT By Sidoine
+
+
+    // ##############################################End edit by sidoine
+
