@@ -29,16 +29,15 @@ var RadarChart = {
 	 ExtraWidthX: 100,
 	 ExtraWidthY: 400,
 	 //color: d3.scale.category10()
-	 // EDIT 06_24 MANU
+
 	 color: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
 	         "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]
 	};
 
-	 // EDIT 06_24 MANU
 	function increment_series(series){
         return (series + 1) % cfg.color.length;
     }
-	 // EDIT 06_24 MANU
+
     function mod(n, m) {
         return ((n % m) + m) % m;
     }
@@ -74,7 +73,17 @@ var RadarChart = {
 			.attr("transform", "translate(0, 20)");
 			;
 
-	var tooltip;
+   var tooltip = d3.select("body")
+                .append("div")
+                .style("position", "absolute")
+                //.style("z-index", "10")
+                .style("visibility", "hidden")
+                .style("color", "#222222")
+                .style("padding", "2px")
+                .style("background", "lightsteelblue")
+                .style("border", "1px")
+                .style("stroke", "1px")
+                .style("border-radius", "3px")
 	
 	//Circular segments
 	for(var j=0; j<cfg.levels-1; j++){
@@ -166,20 +175,14 @@ var RadarChart = {
 						 for(var pti=0;pti<d.length;pti++){
 							 str=str+d[pti][0]+","+d[pti][1]+" ";
 						 }
+
 						 return str;
 					  })
-			         // EDIT 06_24 MANU
+
 					 .style("fill", function(j, i){return cfg.color[series]})
 					 .style("fill-opacity", cfg.opacityArea)
 					 .on('mouseover', function (d){
-                                        newX =  parseFloat(d3.select(this).attr('cx')) - 10;
-                                        newY =  parseFloat(d3.select(this).attr('cy')) - 5;
-                                        tooltip
-                                            .attr('x', newX)
-                                            .attr('y', newY)
-                                            .text(Format(d.value))
-                                            .transition(200)
-                                            .style('opacity', 1);
+
 										z = "polygon."+d3.select(this).attr("class");
 										g.selectAll("polygon")
 										 .transition(200)
@@ -187,24 +190,9 @@ var RadarChart = {
 										g.selectAll(z)
 										 .transition(200)
 										 .style("fill-opacity", .7);
-									  })
-					 // added by sidoine
-					 .on('click', function (d){
-                                    newX =  parseFloat(d3.select(this).attr('cx')) - 10;
-                                    newY =  parseFloat(d3.select(this).attr('cy')) - 5;
+       				  })
 
-                                    tooltip
-                                        .attr('x', newX)
-                                        .attr('y', newY)
-                                        .html("Score Value " + d.value)
-                                        .style("font-size","10px")
-                                       .style("font-weight", "bold")
-                                       .style("top", h) //Y-axis coordinate for tooltip position on mouseover event
-                                       .style("left",0) //X-axis coordinate for tooltip position on mouseover event
-                                       .style("color", "blue")
-                                        .transition(500)
-                                        .style('opacity', 1)
-                                        .style("visibility", "visible");
+					 .on('click', function (d){
 
                                     z = "polygon."+d3.select(this).attr("class");
                                     g.selectAll("polygon")
@@ -213,17 +201,15 @@ var RadarChart = {
                                     g.selectAll(z)
                                         .transition(200)
                                         .style("fill-opacity", .7);
+
 				     })
 					 .on('mouseout', function(){
-					                    tooltip.style("visibility", "hidden") // added by sidoine
-										g.selectAll("polygon")
-										 .transition(200)
-										 .style("fill-opacity", cfg.opacityArea);
+                                                    g.selectAll("polygon")
+                                                     .transition(200)
+                                                     .style("fill-opacity", cfg.opacityArea);
 					 });
-	  // EDIT 06_24 MANU
 	  series = increment_series(series);
 	});
-	// EDIT 06_24 MANU
 	series = indexColor;
 
 
@@ -245,19 +231,11 @@ var RadarChart = {
 		  return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
 		})
 		.attr("data-id", function(j){return j.axis})
-		// EDIT 06_24 MANU
 		.style("fill", cfg.color[series]).style("fill-opacity", .9)
 		.on('mouseover', function (d){
 					newX =  parseFloat(d3.select(this).attr('cx')) - 10;
 					newY =  parseFloat(d3.select(this).attr('cy')) - 5;
-					
-					tooltip
-						.attr('x', newX)
-						.attr('y', newY)
-						.text(Format(d.origValue) + d.unit)
-						.transition(200)
-						.style('opacity', 1);
-						
+
 					z = "polygon."+d3.select(this).attr("class");
 					g.selectAll("polygon")
 						.transition(200)
@@ -270,12 +248,11 @@ var RadarChart = {
 					tooltip
 						.transition(200)
 						.style('opacity', 0);
-				    tooltip.style("visibility", "hidden");// added by sidoine
+				    tooltip.style("visibility", "hidden");
 					g.selectAll("polygon")
 						.transition(200)
 						.style("fill-opacity", cfg.opacityArea);
 				  })
-	    // added by sidoine
 	    .on('click', function (d){
 					newX =  parseFloat(d3.select(this).attr('cx')) - 10;
 					newY =  parseFloat(d3.select(this).attr('cy')) - 5;
@@ -283,15 +260,12 @@ var RadarChart = {
 					tooltip
 						.attr('x', newX)
 						.attr('y', newY)
-						.html("Value : " + d.origV + " " + d.unit)
+						.style("visibility", "visible")
+						.style("opacity",1)
+						.text("Value : " + d3.format(".2f")(d.origV) + " " + d.unit)
 						.style("font-size","10px")
                         .style("font-weight", "bold")
-                       //.style("top", h) //Y-axis coordinate for tooltip position on mouseover event
-                       //.style("left",0) //X-axis coordinate for tooltip position on mouseover event
-                       //.style("color", "blue")
-						.transition(500)
-						.style('opacity', 1)
-						.style("visibility", "visible");
+         				.transition(500);
 
 					z = "polygon."+d3.select(this).attr("class");
 					g.selectAll("polygon")
@@ -302,9 +276,9 @@ var RadarChart = {
 						.style("fill-opacity", .7);
 				  })
 		.append("svg:title")
-		.text(function(j){return Math.max(j.value, 0)});
+		//.text(function(j){return Math.max(j.value, 0)});
+		.text(function(d){return "Value : " + d3.format(".2f")(d.origV) + " " + d.unit});
 
-	    // EDIT 06_24 MANU
 	    // Legend
         // Create colour squares
         l.append("rect")
@@ -331,10 +305,7 @@ var RadarChart = {
             .style("font-weight", "bold")
             .attr("fill", cfg.color[series])
             .text(selectedCountries[mod(series - indexColor, 10)].toUpperCase())
-            .call(wrap, 130)
-            ;
-
-      // EDIT 06_24 MANU
+            .call(wrap, 130);
 	  series = increment_series(series);
 	});
 
