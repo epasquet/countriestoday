@@ -1,3 +1,4 @@
+/*
 var country_zone = {};
 
 var zone_color = {"alena": "#800000",
@@ -42,6 +43,7 @@ function color_countries(d){
 
 draw_world(showCommercialZone);
 
+
 function draw_world(showCommercialZone){
     var width = 1450,
         height = 600;
@@ -57,6 +59,8 @@ function draw_world(showCommercialZone){
         .attr("height", height);
 
     var g = svg.append("g");
+
+    //var dataset = [];
 
     var country_path = d3.geo.path()
         .projection(projection);
@@ -87,8 +91,8 @@ function draw_world(showCommercialZone){
             .get(function(error, rows) {
                 console.log("Loaded " + rows.length + " rows");
                 if (rows.length > 0) {
-                    //console.log("First row: ", rows[0]);
-                    //console.log("Last  row: ", rows[rows.length-1]);
+                    console.log("First row: ", rows[0]);
+                    console.log("Last  row: ", rows[rows.length-1]);
                 }
                 for(var i = 0; i < rows.length; i++) {
                     countryList.push(rows[i].country.toLowerCase().replace(/[^a-zA-Z]/g, "_"));
@@ -96,6 +100,7 @@ function draw_world(showCommercialZone){
                     country_score[rows[i].country.toLowerCase()] = rows[i].binScore.toLowerCase();
                 }
             })
+
 
     // load and display the World
     d3.json("./data/world-topo-min_country_names_modified.json", function(error, topology) {
@@ -111,8 +116,20 @@ function draw_world(showCommercialZone){
           .style("fill", function(d){
                                      return color_countries(d);
                                     })
-          .on("mouseover", function(d){return tooltip.style("visibility", "visible")
-                                                     .text(d.properties.name);})
+          .on("mouseover", function(d){ tooltip.style("visibility", "visible")
+                                                     .text(d.properties.name);
+                                                     //c = d.properties.name.toLowerCase()
+                                                    //console.log(d.properties.name);
+                                                    //console.log(c);
+                                                    //load_and_draw_radar()
+
+                                                    //################Start Edited by Sidoine
+
+                                                    row = get_selected_country(d.properties.name)
+                                                    //console.log("goooooood",row)
+                                                    update_parcoords_with_row([row]);
+                                                    //update_grid_with_data([row])
+                })
           .on("mousemove", function(d){return tooltip.style("visibility", "visible")
                                                      .style("top",(d3.event.pageY-10)+"px")
                                                      .style("left",(d3.event.pageX+10)+"px")
@@ -120,8 +137,21 @@ function draw_world(showCommercialZone){
           .on("mouseout", function(){return tooltip.style("visibility", "hidden");})
           .on("click", function(d){
                 c = d.properties.name.toLowerCase()
-                console.log(c);
+                //console.log(d.properties.name);
+                //console.log(c);
                 load_and_draw_radar()
+
+                //################Start Edited by Sidoine
+
+                row = get_selected_country(d.properties.name)
+                //console.log("goooooood",row)
+                update_parcoords_with_row([row]);
+                //update_grid_with_data([row])
+
+
+
+                //#####################End edited by sidoine
+
                 d3.select(this).style("stroke-width", "2px").style("fill", "#DDDDDD");
                 // EDIT 06_24 MANU
                 // Remplissage de la liste de selected countries
@@ -154,7 +184,7 @@ function draw_world(showCommercialZone){
                         selectedCountries.push(c);
                     }
                 }
-                console.log(selectedCountries)
+
           });
     });
 
@@ -168,3 +198,28 @@ function draw_world(showCommercialZone){
 
     svg.call(zoom);
 }
+
+ // End edited by sidoine
+
+function get_selected_country(country) {        //console.log(dataset[0]);
+                                                    for (var i = 0; i < datasets.length; i++) {
+
+                                                      row = datasets[i]
+                                                      if (row['Country'].toLowerCase() == country.toLowerCase())
+                                                        return row;
+                                                    }
+                                                    //alert("Did not find county " + county + " in dataset.");
+                                       }
+    function update_parcoords_with_row(row) {
+                                                for (var i = 0; i < row.length; i++) {
+                                                    parcoords.highlight([row[i]]);}
+                                        }
+
+    function update_grid_with_data(data) {
+                                            dataView.beginUpdate();
+                                            dataView.setItems(data);
+                                            dataView.endUpdate();
+    };
+    */
+
+  // Start Edited by Sidoine
