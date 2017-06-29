@@ -37,50 +37,62 @@
     <script>
         var countryList = [];
         var selectedCountries = [];
-        // EDIT 06_24 MANU
+
         var indexColor = 0;
         var brushedCountries = [];
         var showCommercialZone = false;
+        var datasets = []
+
     </script>
-    <div id="map_div" class = "world_map" style="width: 65%; background-color:#ccccff; height: 600px; float: left;"></div>
-    <script type="text/javascript" src="js/worldMapD3.js"></script>
+    <div id="map_div" class = "world_map" style="width: 65%; background-color:#88aacc; height: 600px; float: left;"></div>
+   <!-- <script type="text/javascript" src="js/worldMapD3.js"></script>-->
 
     <div id="chart" class = "radar" style="width: 35%; background-color:#EEEEEE; height: 600px; float: right;"></div>
-    <script type="text/javascript" src="js/script.js"></script>
+   <!-- <script type="text/javascript" src="js/script.js"></script>-->
 
     <!-- DIV FILTERS -->
     <div id="filters" class ="filters" style="width: 65%; background-color:#DDDDDD; height: 100px; float: left;">
         <div id="ShowComZone_CheckBox" class ="ShowComZone_CheckBox" style="width: 40%; height: 100px; float: left;">
             <label style="float: centered;">
-                <span>Show Commercial Alliances</span>
+                <strong><br>Show Commercial Alliances</strong></br>
             <input type="checkbox" id="myCheckbox" style="width: 30px; height: 30px;">
             </label>
-            <script>
-                d3.select("#myCheckbox").on("change",update);
-                function update(){
-                    showCommercialZone = !showCommercialZone
-                    d3.select("#map_div").select("svg").remove()
-                        .call(draw_world(showCommercialZone));
-                }
-            </script>
-        </div>
-    </div>
-    <div id="radarLegends" class ="radarLegends" style="width: 35%; background-color:#EEEEEE; height: 100px; float: right;"></div>
 
-    <!-- DIV PARALLEL COORDINATES -->
-    <div id="explanation" class ="explanation" style="width: 60%; height: 100px; float: left;">
-        <div id="smoothnes" >
-            <h3>Use this slider to change the curve smoothness. <br/>The current value is <strong id="smooth">0.0</strong><br/></h3>
-                <input type="range" min="0" max="0.25" value="0.0" step="0.01" id="smoothness"/>
         </div>
-        <script src="js/d3.slider.js"></script>
-        <h3>Range Slider with event, values: [<span id="slider3textmin">0</span>, <span id="slider3textmax">25</span>]</h3>
-        <div id="slider3" ></div>
+        <div id="map_title" class ="map_title" style="width: 60%; background-color:#DDDDDD; height: 100px; float: right;">
+            <h2>ELECTRIC CARS MARKET FOR THE NEXT DECADE </h2>
+        </div>
     </div>
+
+    <div id="radarLegends" class ="radarLegends" style="width: 35%; background-color:#EEEEEE; height: 100px; float: right;"></div>
     <div id="parcoords" class="parcoords"></div>
-    <!--<div id="map"></div>-->
     <div id="grid"></div>
     <script type="text/javascript" src="lib/parcoords.js"></script>
-    <!--<div class="clear"></div>-->
-</body>
+
+    <!-- USEFULS LINKS AND SOURCES-->
+
+    <div id="data_sources">
+      <h2>Data sources</h2>
+      <p>The data sources come from : </p>
+      <ul>
+        <li><a target="_blank" href="https://fr.wikipedia.org/">https://fr.wikipedia.org/</a></li>
+        <li>The World Map come from : <a href="https://github.com/hiebj/world-topo/blob/master/world-topo-min.json">https://github.com/hiebj/world-topo/blob/master/world-topo-min.json</a></li>
+      </ul>
+      <p>You can download the <a href="data/factbook_converti_float.csv">Factbook Datas</a>.</p>
+        <p><strong>PROJECT TEAM : </strong><br>Jean-Michel, Damien, Jean-Baptiste, Emmanuel, Sidoine</p>
+    </div>
+    <div id="links">
+      <h2>Some Source code Links and Library that we have Used</h2>
+      <ul>
+        <li><a target="_blank" href="https://d3js.org/">D3.js</a></li>
+        <li><a target="_blank" href="https://syntagmatic.github.io/parallel-coordinates/">Parallel Coordinates: https://syntagmatic.github.io/parallel-coordinates</a></li>
+        <li><a target="_blank" href="https://github.com/mleibman/SlickGrid">Slick Grid : https://github.com/mleibman/SlickGrid</a></li>
+        <li><a target="_blank" href="http://bl.ocks.org/nbremer/6506614">Radar Charts : http://bl.ocks.org/nbremer/6506614</a></li>
+        <li><a target="_blank" href="https://github.com/RealImpactAnalytics/d4g-hackathon-malaria-viz">Tutorials : https://github.com/RealImpactAnalytics/d4g-hackathon-malaria-viz</a></li>
+      </ul>
+    </div>
+
+    <div id="footer"></div>
+    </body>
+
 </html>
